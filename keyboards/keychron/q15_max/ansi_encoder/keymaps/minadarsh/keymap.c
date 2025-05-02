@@ -33,6 +33,7 @@ enum keycodes {
     TQWERTY = SAFE_RANGE,
     KNOBALT,
     FUNCTIO,
+    LESBFLG,
     ALTTABK,
     ALTSFTK
 };
@@ -68,9 +69,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,  _______,       _______,                 _______,            _______,  _______,  _______,   _______,  _______),
 
     [COM_FN] = LAYOUT_ansi_66(
-        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,    KC_F12,   KC_MPLY,
+        QK_BOOT,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,    KC_F12,   KC_MPLY,
         KC_GRV,   TQWERTY,  RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PSCR,  KC_SCRL,   KC_PAUS,  KC_INS,
-        _______,  RGB_TOG,  RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  NK_TOGG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,
+        _______,  RGB_TOG,  RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  NK_TOGG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   LESBFLG,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    BAT_LVL,  KNOBALT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,   KC_PGUP,  _______,
         _______,  GU_TOGG,  _______,  _______,       _______,                 _______,            _______,  _______,  KC_HOME,   KC_PGDN,  KC_END)
 };
@@ -127,6 +128,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             layer_on(COM_FN);
         } else {
             layer_off(COM_FN);
+        }
+        return false;
+    case LESBFLG:
+        if (record->event.pressed) {
+            rgb_matrix_mode(RGB_MATRIX_CUSTOM_lesbian_flag);
         }
         return false;
 # if defined (ENCODER_MAP_ENABLE)
