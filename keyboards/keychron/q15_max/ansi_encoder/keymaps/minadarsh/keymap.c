@@ -17,6 +17,9 @@
 #include QMK_KEYBOARD_H
 #include "keychron_common.h"
 
+#define RGB_MATRIX_CUSTOM_1 RGB_MATRIX_CUSTOM_lesbian_flag
+#define RGB_MATRIX_CUSTOM_2 RGB_MATRIX_CUSTOM_trans_flag
+
 bool is_alt_tab_active = false;
 bool is_alt_shift_tab_active = false;
 uint16_t alt_tab_timer = 0;
@@ -33,7 +36,6 @@ enum keycodes {
     TQWERTY = SAFE_RANGE,
     KNOBALT,
     FUNCTIO,
-    LESBFLG,
     ALTTABK,
     ALTSFTK
 };
@@ -71,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [COM_FN] = LAYOUT_ansi_66(
         QK_BOOT,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,    KC_F12,   KC_MPLY,
         KC_GRV,   TQWERTY,  RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PSCR,  KC_SCRL,   KC_PAUS,  KC_INS,
-        _______,  RGB_TOG,  RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  NK_TOGG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   LESBFLG,
+        _______,  RGB_TOG,  RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  NK_TOGG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   _______,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    BAT_LVL,  KNOBALT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,   KC_PGUP,  _______,
         _______,  GU_TOGG,  _______,  _______,       _______,                 _______,            _______,  _______,  KC_HOME,   KC_PGDN,  KC_END)
 };
@@ -100,6 +102,12 @@ const uint16_t PROGMEM encoder_map[][2][2] = {
 
 #endif // ENCODER_MAP_ENABLE
 
+void keyboard_post_init_user(void) {
+    // rgb_matrix_enable_noeeprom();
+    // rgb_matrix_sethsv_noeeprom(0, 255, 255);
+    rgb_matrix_mode(RGB_MATRIX_CUSTOM_1);
+};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_keychron_common(keycode, record)) {
         return false;
@@ -109,11 +117,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             if (!layer_state_is(QWERTY)) {
                 layer_on(QWERTY);
+                rgb_matrix_mode(RGB_MATRIX_CUSTOM_2);
             } else {
                 layer_off(QWERTY);
+                rgb_matrix_mode(RGB_MATRIX_CUSTOM_1);
             }
-            return false;
         }
+        return false;
     case KNOBALT:
         if (record->event.pressed) {
             if (!layer_state_is(KNOB_ALT)) {
@@ -121,18 +131,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 layer_off(KNOB_ALT);
             }
-            return false;
         }
+        return false;
     case FUNCTIO:
         if (record->event.pressed) {
             layer_on(COM_FN);
         } else {
             layer_off(COM_FN);
-        }
-        return false;
-    case LESBFLG:
-        if (record->event.pressed) {
-            rgb_matrix_mode(RGB_MATRIX_CUSTOM_lesbian_flag);
         }
         return false;
 # if defined (ENCODER_MAP_ENABLE)
