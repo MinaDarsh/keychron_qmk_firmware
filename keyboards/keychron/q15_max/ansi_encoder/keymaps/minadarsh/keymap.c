@@ -25,56 +25,53 @@ bool is_alt_shift_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
 enum layers {
-    MAC_BASE,
-    WIN_BASE,
-    QWERTY,
-    KNOB_ALT,
-    COM_FN,
+    MAC,
+    WIN,
+    QWT,
+    ALT,
+    CFN,
 };
 
 enum keycodes {
-    TQWERTY = SAFE_RANGE,
-    KNOBALT,
-    FUNCTIO,
-    ALTTABK,
+    ALTTABK = SAFE_RANGE,
     ALTSFTK
 };
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [MAC_BASE] = LAYOUT_ansi_66(
+    [MAC] = LAYOUT_ansi_66(
         KC_HOME,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,   KC_EQL,   KC_MUTE,
         KC_TAB,   KC_Q,     KC_W,     KC_F,     KC_P,     KC_B,     KC_J,     KC_L,     KC_U,     KC_Y,     KC_SCLN,  KC_LBRC,   KC_RBRC,  KC_BSLS,
         KC_ESC,   KC_A,     KC_R,     KC_S,     KC_T,     KC_G,     KC_K,     KC_N,     KC_E,     KC_I,     KC_O,     KC_QUOT,   KC_ENT,
         KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_D,     KC_V,     KC_M,     KC_H,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,   KC_UP,	   KC_DEL,
-        KC_LCTL,  KC_LOPTN, KC_LCMMD, FUNCTIO,       KC_SPC,                  KC_BSPC,            KC_RCMMD, KC_ROPTN, KC_LEFT,   KC_DOWN,  KC_RGHT),
+        KC_LCTL,  KC_LOPTN, KC_LCMMD, MO(CFN),       KC_SPC,                  KC_BSPC,            KC_RCMMD, KC_ROPTN, KC_LEFT,   KC_DOWN,  KC_RGHT),
 
-    [WIN_BASE] = LAYOUT_ansi_66(
+    [WIN] = LAYOUT_ansi_66(
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,
         _______,  KC_LGUI,  KC_LALT,  _______,       _______,                 _______,            KC_RALT,  KC_RCTL,  _______,   _______,  _______),
 
-    [QWERTY] = LAYOUT_ansi_66(
+    [QWT] = LAYOUT_ansi_66(
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,
         _______,  _______,  _______,  KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     _______,   _______,  _______,
         _______,  _______,  KC_S,     KC_D,     KC_F,     _______,  KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  _______,   _______,
         _______,  _______,  _______,  _______,  KC_V,     KC_B,     KC_N,     KC_M,     _______,  _______,  _______,  _______,   _______,  _______,
         _______,  _______,  _______,  _______,       _______,                 _______,            _______,  _______,  _______,   _______,  _______),
 
-    [KNOB_ALT] = LAYOUT_ansi_66(
+    [ALT] = LAYOUT_ansi_66(
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  LCA(KC_QUOT),
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,
         _______,  _______,  _______,  _______,       _______,                 _______,            _______,  _______,  _______,   _______,  _______),
 
-    [COM_FN] = LAYOUT_ansi_66(
+    [CFN] = LAYOUT_ansi_66(
         QK_BOOT,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,    KC_F12,   KC_MPLY,
-        KC_GRV,   TQWERTY,  RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PSCR,  KC_SCRL,   KC_PAUS,  KC_INS,
+        KC_GRV,   TG(QWT),  RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PSCR,  KC_SCRL,   KC_PAUS,  KC_INS,
         _______,  RGB_TOG,  RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  NK_TOGG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   _______,
-        _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    BAT_LVL,  KNOBALT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,   KC_PGUP,  _______,
+        _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    BAT_LVL,  TG(ALT),  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,   KC_PGUP,  _______,
         _______,  GU_TOGG,  _______,  _______,       _______,                 _______,            _______,  _______,  KC_HOME,   KC_PGDN,  KC_END)
 };
 
@@ -93,53 +90,76 @@ void matrix_scan_user(void) {
 };
 
 const uint16_t PROGMEM encoder_map[][2][2] = {
-    [MAC_BASE] = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D),ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [WIN_BASE] = {ENCODER_CCW_CW(ALTSFTK, ALTTABK),ENCODER_CCW_CW(_______, _______)},
-    [QWERTY]   = {ENCODER_CCW_CW(_______, _______),ENCODER_CCW_CW(_______, _______)},
-    [KNOB_ALT] = {ENCODER_CCW_CW(KC_LBRC, KC_RBRC),ENCODER_CCW_CW(KC_MINS, KC_QUOT)},
-    [COM_FN]   = {ENCODER_CCW_CW(_______, _______),ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
+    [MAC] = {ENCODER_CCW_CW(KC_WH_U, KC_WH_D),ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [WIN] = {ENCODER_CCW_CW(ALTSFTK, ALTTABK),ENCODER_CCW_CW(_______, _______)},
+    [QWT]   = {ENCODER_CCW_CW(_______, _______),ENCODER_CCW_CW(_______, _______)},
+    [ALT] = {ENCODER_CCW_CW(KC_LBRC, KC_RBRC),ENCODER_CCW_CW(KC_MINS, KC_QUOT)},
+    [CFN]   = {ENCODER_CCW_CW(_______, _______),ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
 };
 
 #endif // ENCODER_MAP_ENABLE
 
-void keyboard_post_init_user(void) {
-    // rgb_matrix_enable_noeeprom();
-    // rgb_matrix_sethsv_noeeprom(0, 255, 255);
-    rgb_matrix_mode(RGB_MATRIX_CUSTOM_1);
-};
+// void keyboard_post_init_user(void) {
+//     // rgb_matrix_enable_noeeprom();
+//     // rgb_matrix_sethsv_noeeprom(0, 255, 255);
+//     rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_1);
+// };
+
+// bool rgb_matrix_indicators_user(void) {
+//     return false;
+// }
+
+// bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+//     return false;
+// }
+
+// called right before any layer change, with "state" being the about-to-be-applied layer stack
+// whatever you return is what will be finally set 
+// layer_state_t layer_state_set_user(layer_state_t state) {
+//     switch (get_highest_layer(state)) {
+//         case QWT:
+//             rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_2);
+//             break;
+//         default:
+//             rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_1);
+//             break;
+//     }
+
+//     return state; // we dont wanna mess with this, just display, left untouched
+// }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_keychron_common(keycode, record)) {
         return false;
     }
     switch (keycode) {
-    case TQWERTY:
-        if (record->event.pressed) {
-            if (!layer_state_is(QWERTY)) {
-                layer_on(QWERTY);
-                rgb_matrix_mode(RGB_MATRIX_CUSTOM_2);
-            } else {
-                layer_off(QWERTY);
-                rgb_matrix_mode(RGB_MATRIX_CUSTOM_1);
-            }
-        }
-        return false;
-    case KNOBALT:
-        if (record->event.pressed) {
-            if (!layer_state_is(KNOB_ALT)) {
-                layer_on(KNOB_ALT);
-            } else {
-                layer_off(KNOB_ALT);
-            }
-        }
-        return false;
-    case FUNCTIO:
-        if (record->event.pressed) {
-            layer_on(COM_FN);
-        } else {
-            layer_off(COM_FN);
-        }
-        return false;
+    // case TQWERTY:
+    //     if (record->event.pressed) {
+    //         if (!layer_state_is(QWT)) {
+    //             layer_on(QWT);
+    //             rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_2);
+    //         } else {
+    //             layer_off(QWT);
+    //             rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_1);
+    //         }
+    //     }
+    //     return false;
+    // case KNOBALT:
+    //     if (record->event.pressed) {
+    //         if (!layer_state_is(ALT)) {
+    //             layer_on(ALT);
+    //         } else {
+    //             layer_off(ALT);
+    //         }
+    //     }
+    //     return false;
+    // case FUNCTIO:
+    //     if (record->event.pressed) {
+    //         layer_on(CFN);
+    //     } else {
+    //         layer_off(CFN);
+    //     }
+    //     return false;
 # if defined (ENCODER_MAP_ENABLE)
     case ALTTABK:
         if (record->event.pressed) {
